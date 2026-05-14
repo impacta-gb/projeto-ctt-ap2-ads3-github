@@ -1,0 +1,19 @@
+# Zensical - Static Site Generator
+# Gerador de sites estáticos para documentação
+
+# Core dependencies
+zensical==0.0.41
+
+# O arquivo requirements.txt inclui:
+# - zensical: Gerador de sites estáticos
+# - click>=8.1.8: Framework CLI
+# - deepmerge>=2.0: Merge de configurações
+# - jinja2>=3.1: Motor de templates
+# - markdown>=3.7: Parser Markdown
+# - pygments>=2.20: Syntax highlighting
+# - pymdown-extensions>=10.21.2: Extensões Markdown
+# - pyyaml>=6.0.2: Parser YAML
+# - tomli>=2.4.0: Parser TOML
+# - colorama: Cores no terminal
+
+# Para instalar: pip install -r requirements.txt

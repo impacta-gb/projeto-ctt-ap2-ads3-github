@@ -2,21 +2,75 @@
 icon: lucide/rocket
 ---
 
-# Get started @@@
+# Aprenda Go - Linguagem de Programação
 
-For full documentation visit [zensical.org](https://zensical.org/docs/).
+Bem-vindo ao curso de **Go (Golang)**! Este material foi desenvolvido para ensinar os fundamentos da linguagem de programação Go de forma prática e acessível.
 
-## Commands
+## 📚 Conteúdo do Curso
 
-* [`zensical new`][new] - Create a new project
-* [`zensical serve`][serve] - Start local web server
-* [`zensical build`][build] - Build your site
+### Conceitos Básicos
+- [Introdução à Linguagem Go](introducao.md) - O que é Go e seus principais conceitos
+- [Sintaxe Básica e Variáveis](sintaxe-basica.md) - Estrutura básica, variáveis e tipos
 
-  [new]: https://zensical.org/docs/usage/new/
-  [serve]: https://zensical.org/docs/usage/preview/
-  [build]: https://zensical.org/docs/usage/build/
+### Estruturas de Controle
+- [Estruturas de Controle](estruturas-controle.md) - Condicionais, loops e controle de fluxo
 
-## Examples
+### Tipos Avançados
+- [Arrays, Slices e Maps](arrays-slices-maps.md) - Estruturas de dados fundamentais
+- [Structs e Métodos](structs-metodos.md) - Estruturas de dados e métodos
+
+### Recursos Avançados
+- [Tratamento de Erros](tratamento-erros.md) - Como lidar com erros em Go
+- [Testes](testes.md) - Testes automatizados em Go
+
+## 🚀 Como Usar Este Material
+
+### Desenvolvimento Local
+Para visualizar este site localmente em sua máquina:
+
+```bash
+# Instalar dependências
+pip install -r requirements.txt
+
+# Criar novo projeto (se necessário)
+.\.venv\Scripts\zensical new .
+
+# Servir localmente
+.\.venv\Scripts\zensical serve
+```
+
+O site estará disponível em `http://localhost:8000`
+
+### Contribuição
+Para contribuir com este material:
+
+1. Faça suas modificações nos arquivos `.md` da pasta `docs/`
+2. Teste localmente com `zensical serve`
+3. Faça commit e push das mudanças
+
+## 📖 Sobre Go
+
+Go é uma linguagem de programação criada pelo Google em 2009, focada em:
+
+- **Simplicidade**: Sintaxe clara e direta
+- **Desempenho**: Compilação rápida e execução eficiente
+- **Concorrência**: Suporte nativo a goroutines e channels
+- **Produtividade**: Ferramentas integradas e ecossistema rico
+
+## 🎯 Objetivos de Aprendizado
+
+Ao final deste curso, você será capaz de:
+
+- Entender os conceitos fundamentais da linguagem Go
+- Escrever programas básicos em Go
+- Utilizar estruturas de controle e tipos de dados
+- Implementar tratamento de erros adequado
+- Criar e executar testes automatizados
+- Desenvolver aplicações concorrentes com goroutines
+
+---
+
+*Este material foi desenvolvido com Zensical - um gerador de sites estáticos moderno.*
 
 ### Admonitions
 
