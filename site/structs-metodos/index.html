@@ -269,6 +269,32 @@
   
   
     <li class="md-nav__item">
+      <a href="../channels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Channels
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../estruturas-controle/" class="md-nav__link">
         
   
@@ -295,6 +321,58 @@
   
   
     <li class="md-nav__item">
+      <a href="../go-modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Go modules
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../goroutines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Goroutines
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../introducao/" class="md-nav__link">
         
   
@@ -303,6 +381,62 @@
     
   
   Introdução à Linguagem Go
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../markdown%20copy/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.308a1.73 1.73 0 0 1-1.73 1.731zM5.769 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.078h-2.308l-2.307 2.885-2.308-2.885H3.46v7.847zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.039z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Maaaaaa
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../markdown/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.308a1.73 1.73 0 0 1-1.73 1.731zM5.769 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.078h-2.308l-2.307 2.885-2.308-2.885H3.46v7.847zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.039z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Markdown in 5min
 
     
   </span>
@@ -474,7 +608,221 @@
 
   <h1 id="__skip">Structs metodos</h1>
 
+<p>Structs e Métodos em Go</p>
+<p>Em Go, as structs são utilizadas para agrupar dados relacionados em uma única estrutura. Já os métodos permitem adicionar comportamentos a essas estruturas, deixando o código mais organizado e próximo da programação orientada a objetos.</p>
+<ol>
+<li>Structs</li>
+</ol>
+<p>Uma struct é um tipo personalizado que agrupa diferentes campos.</p>
+<p>Sintaxe básica
+type NomeStruct struct {
+    campo tipo
+}
+Exemplo simples
+package main</p>
+<p>import "fmt"</p>
+<p>type Pessoa struct {
+    Nome  string
+    Idade int
+}</p>
+<p>func main() {
+    pessoa := Pessoa{
+        Nome:  "João",
+        Idade: 25,
+    }</p>
+<div class="language-text highlight"><pre><span></span><code>fmt.Println(pessoa)
+</code></pre></div>
+<p>}</p>
+<p>Saída:</p>
+<p>{João 25}
+Acessando campos</p>
+<p>Os campos são acessados usando .</p>
+<p>package main</p>
+<p>import "fmt"</p>
+<p>type Produto struct {
+    Nome  string
+    Preco float64
+}</p>
+<p>func main() {
+    produto := Produto{
+        Nome:  "Notebook",
+        Preco: 3500,
+    }</p>
+<div class="language-text highlight"><pre><span></span><code>fmt.Println(produto.Nome)
+fmt.Println(produto.Preco)
+</code></pre></div>
+<p>}
+Alterando valores
+package main</p>
+<p>import "fmt"</p>
+<p>type Usuario struct {
+    Nome string
+}</p>
+<p>func main() {
+    usuario := Usuario{
+        Nome: "Carlos",
+    }</p>
+<div class="language-text highlight"><pre><span></span><code>usuario.Nome = &quot;Maria&quot;
 
+fmt.Println(usuario)
+</code></pre></div>
+<p>}
+Struct aninhada</p>
+<p>Structs podem conter outras structs.</p>
+<p>package main</p>
+<p>import "fmt"</p>
+<p>type Endereco struct {
+    Cidade string
+    Estado string
+}</p>
+<p>type Pessoa struct {
+    Nome      string
+    Endereco  Endereco
+}</p>
+<p>func main() {
+    pessoa := Pessoa{
+        Nome: "Ana",
+        Endereco: Endereco{
+            Cidade: "São Paulo",
+            Estado: "SP",
+        },
+    }</p>
+<div class="language-text highlight"><pre><span></span><code>fmt.Println(pessoa)
+</code></pre></div>
+<p>}
+Struct anônima</p>
+<p>Uma struct pode ser criada sem definir um tipo separado.</p>
+<p>package main</p>
+<p>import "fmt"</p>
+<p>func main() {
+    carro := struct {
+        Marca string
+        Ano   int
+    }{
+        Marca: "Toyota",
+        Ano:   2024,
+    }</p>
+<div class="language-text highlight"><pre><span></span><code>fmt.Println(carro)
+</code></pre></div>
+<p>}
+2. Métodos</p>
+<p>Métodos são funções associadas a uma struct.</p>
+<p>Eles permitem adicionar comportamentos aos tipos personalizados.</p>
+<p>Sintaxe de método
+func (variavel Tipo) NomeMetodo() {
+    // código
+}</p>
+<p>A parte (variavel Tipo) é chamada de receiver.</p>
+<p>Exemplo básico
+package main</p>
+<p>import "fmt"</p>
+<p>type Pessoa struct {
+    Nome string
+}</p>
+<p>func (p Pessoa) Apresentar() {
+    fmt.Println("Olá, meu nome é", p.Nome)
+}</p>
+<p>func main() {
+    pessoa := Pessoa{
+        Nome: "João",
+    }</p>
+<div class="language-text highlight"><pre><span></span><code>pessoa.Apresentar()
+</code></pre></div>
+<p>}</p>
+<p>Saída:</p>
+<p>Olá, meu nome é João
+Métodos com retorno
+package main</p>
+<p>import "fmt"</p>
+<p>type Retangulo struct {
+    Largura float64
+    Altura  float64
+}</p>
+<p>func (r Retangulo) Area() float64 {
+    return r.Largura * r.Altura
+}</p>
+<p>func main() {
+    ret := Retangulo{
+        Largura: 10,
+        Altura:  5,
+    }</p>
+<div class="language-text highlight"><pre><span></span><code>fmt.Println(ret.Area())
+</code></pre></div>
+<p>}
+Receiver por valor</p>
+<p>Quando o receiver é passado por valor, a struct é copiada.</p>
+<p>func (p Pessoa) Metodo() {
+    // cópia da struct
+}</p>
+<p>Alterações dentro do método não afetam o valor original.</p>
+<p>Receiver por ponteiro</p>
+<p>Usado quando precisamos modificar a struct original ou evitar cópias desnecessárias.</p>
+<p>package main</p>
+<p>import "fmt"</p>
+<p>type Contador struct {
+    Valor int
+}</p>
+<p>func (c *Contador) Incrementar() {
+    c.Valor++
+}</p>
+<p>func main() {
+    contador := Contador{}</p>
+<div class="language-text highlight"><pre><span></span><code>contador.Incrementar()
+contador.Incrementar()
+
+fmt.Println(contador.Valor)
+</code></pre></div>
+<p>}</p>
+<p>Saída:</p>
+<p>2
+Funções vs Métodos
+Função  Método
+Independente    Associado a uma struct
+Recebe parâmetros comuns    Possui receiver
+Uso geral   Representa comportamento do tipo
+Exemplo prático completo
+package main</p>
+<p>import "fmt"</p>
+<p>type Conta struct {
+    Titular string
+    Saldo   float64
+}</p>
+<p>func (c *Conta) Depositar(valor float64) {
+    c.Saldo += valor
+}</p>
+<p>func (c *Conta) Sacar(valor float64) {
+    c.Saldo -= valor
+}</p>
+<p>func (c Conta) ExibirSaldo() {
+    fmt.Println("Saldo:", c.Saldo)
+}</p>
+<p>func main() {
+    conta := Conta{
+        Titular: "Maria",
+        Saldo:   1000,
+    }</p>
+<div class="language-text highlight"><pre><span></span><code>conta.Depositar(500)
+conta.Sacar(200)
+
+conta.ExibirSaldo()
+</code></pre></div>
+<p>}
+Boas práticas
+Use nomes claros para structs.
+Prefira métodos para comportamentos relacionados ao tipo.
+Utilize receiver por ponteiro quando precisar alterar dados.
+Mantenha structs simples e organizadas.
+Evite structs gigantes com muitas responsabilidades.
+Quando usar Structs?</p>
+<p>Structs são ideais para representar:</p>
+<p>usuários
+produtos
+pedidos
+contas bancárias
+veículos
+entidades do sistema em geral
+Conclusão</p>
+<p>Structs e métodos são fundamentais em Go e permitem modelar dados e comportamentos de forma organizada e eficiente. Embora Go não seja totalmente orientado a objetos, esses recursos oferecem uma abordagem simples, performática e muito poderosa para desenvolvimento de aplicações.</p>
 
 
 
