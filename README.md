@@ -1,150 +1,172 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/Du716tKn)
 
-# Documentação com Zensical
+# Documentação Go — CTT AP2
 
-Este projeto utiliza **Zensical**, um gerador de sites estáticos moderno e minimalista, para criar e servir documentação técnica em Markdown. É uma ferramenta perfeita para criar sites de documentação rápidos, com suporte a temas personalizáveis e busca integrada.
+Site de documentação da linguagem **Go** construído com **Zensical** e publicado automaticamente no **GitHub Pages** via **GitHub Actions**.
 
-## O que é Zensical?
+## Integrantes
 
-Zensical é um static site generator (gerador de sites estáticos) que transforma arquivos Markdown em um site HTML completo e funcional. Perfeito para:
+| Nome | RA |
+|---|---|
+| Giovanni Moreira | 2500078 |
+| João Pedro Telmo Ferroni | 2404404 |
+| Lucas Soares Branco | 2404395 |
+| Vitor Gabriel | 2501307 |
 
-- 📚 Documentação de projetos
-- 📖 Blogs técnicos
-- 🎓 Material educacional
-- 📝 Wikis e bases de conhecimento
+---
 
-## Pré-requisitos
+## Fluxo de Trabalho da Equipe
 
-Antes de começar, você precisa ter instalado:
+Adotamos um fluxo colaborativo baseado em **Feature Branches** com revisão obrigatória via Pull Request antes de qualquer merge na `main`.
 
-- **Python 3.10+** — [Download aqui](https://www.python.org/)
-- **pip** — Gerenciador de pacotes Python (geralmente incluído com Python)
+### Regras adotadas
 
-Para verificar se você tem Python instalado, execute:
+- A branch `main` tem **proteção contra push direto** (Branch Protection Rules no GitHub)
+- Todo trabalho é feito em uma branch separada com nomenclatura descritiva
+- Ao finalizar, o autor abre um **Pull Request** para a `main`
+- Pelo menos **um outro membro** revisa o PR, deixa comentários (quando necessário) e aprova antes do merge
 
-```bash
-python --version
+### Convenção de nomes de branch
+
+| Tipo | Padrão | Exemplo |
+|---|---|---|
+| Nova página de documentação | `feat/doc-<topico>` | `feat/doc-goroutines` |
+| Correção de workflow/CI | `fix/ci-<descricao>` | `fix/ci-cache` |
+| Correção de conteúdo | `fix/<descricao>` | `fix/nav-order` |
+| Documentação do projeto | `docs/<descricao>` | `docs/readme` |
+
+### Como as revisões foram feitas
+
+1. O autor da branch abre o PR com descrição do que foi feito
+2. O revisor lê o diff, testa localmente se necessário e deixa comentários
+3. O autor responde/corrige e solicita nova revisão
+4. Após aprovação, o merge é feito via interface do GitHub (nunca por linha de comando direto na main)
+
+---
+
+## Conteúdo do Site
+
+As páginas de documentação cobrem os seguintes tópicos de Go, nesta ordem:
+
+1. Introdução e Instalação
+2. Sintaxe Básica e Variáveis
+3. Estruturas de Controle (If, For, Switch)
+4. Arrays, Slices e Maps
+5. Structs e Métodos
+6. Tratamento de Erros (Error Handling)
+7. Concorrência I: Goroutines
+8. Concorrência II: Channels
+9. Gerenciamento de Pacotes (Go Modules)
+10. Testes Automatizados em Go
+
+---
+
+## Arquitetura do CI/CD (GitHub Actions)
+
+O pipeline é dividido em dois workflows com responsabilidades distintas.
+
+### `ci.yml` — Validação (roda em Pull Requests)
+
+Garante que nenhum PR quebre o site antes de ser aprovado.
+
+```
+Trigger: pull_request → main
+│
+└── job: validate
+    strategy:
+      matrix:
+        python-version: [3.10, 3.11]   ← roda em paralelo nas duas versões
+    │
+    ├── Cache de dependências pip (actions/cache)
+    ├── pip install -r requirements.txt
+    └── zensical build --clean          ← falha o PR se o build quebrar
 ```
 
-## Instalação e Configuração
+### `docs.yml` — Build e Deploy (roda em push e schedule)
 
-### 1. Criar ambiente virtual
+Publica o site no GitHub Pages após cada merge e automaticamente toda semana.
 
-```bash
-python3 -m venv .venv
+```
+Triggers:
+  - push → main          (após merge de PR)
+  - schedule: 0 0 * * 0  (toda domingo à meia-noite)
+│
+├── job: build_site
+│   ├── Cache de dependências pip (actions/cache)
+│   ├── pip install -r requirements.txt
+│   ├── zensical build --clean
+│   └── upload-pages-artifact → empacota o site/ gerado
+│
+└── job: deploy_site
+    needs: build_site                               ← aguarda o build terminar
+    if: push ou schedule (NUNCA em pull_request)    ← condicional de segurança
+    └── deploy-pages → publica no GitHub Pages
 ```
 
-### 2. Ativar o ambiente virtual
+### Por que dois jobs separados?
 
-**Windows (PowerShell):**
+O desacoplamento entre `build_site` e `deploy_site` garante:
+- **Segurança**: o deploy nunca é executado durante um PR, apenas quando há push real na main ou via schedule
+- **Rastreabilidade**: o artefato gerado pelo build fica registrado na aba Actions antes do deploy
+- **Resiliência**: se o deploy falhar, o artefato continua disponível para reenvio sem necessidade de rebuild
+
+---
+
+## Como Rodar Localmente
+
+### Pré-requisitos
+
+- Python 3.10 ou superior
+- pip
+
+### Configuração
+
 ```powershell
+# 1. Criar e ativar o ambiente virtual
+python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-```
 
-**Windows (CMD):**
-```cmd
-.\.venv\Scripts\activate
-```
-
-**Linux/macOS:**
-```bash
-source .venv/bin/activate
-```
-
-### 3. Instalar dependências
-
-```bash
+# 2. Instalar dependências
 pip install -r requirements.txt
+
+# 3. Servidor local com hot reload
+zensical serve
 ```
 
-## Comandos Básicos do Zensical
+Acesse em `http://localhost:8000`
 
-### Criar um novo projeto
-
-Para criar um novo projeto com template padrão:
+### Build estático
 
 ```powershell
-.\.venv\Scripts\zensical new .
+zensical build --clean
 ```
 
-### Construir o projeto
+Os arquivos gerados ficam em `site/`.
 
-Para gerar os arquivos HTML estáticos:
-
-```powershell
-.\.venv\Scripts\zensical build
-```
-
-### Servir o projeto localmente
-
-Para visualizar o site em seu navegador:
-
-```powershell
-.\.venv\Scripts\zensical serve
-```
-
-O site estará disponível em `http://localhost:8000`
-
-### Servir em uma porta personalizada
-
-Se a porta 8000 estiver ocupada:
-
-```powershell
-.\.venv\Scripts\zensical serve -a localhost:8080
-```
-
-O site estará disponível em `http://localhost:8080`
+---
 
 ## Estrutura do Projeto
 
 ```
-.
-├── README.md              # Este arquivo
-├── requirements.txt       # Dependências do projeto
-├── zensical.toml         # Configuração do Zensical
-├── docs/                 # Arquivos Markdown da documentação
+projeto-ctt-ap2-ads3-github/
+├── README.md                        # este arquivo
+├── requirements.txt                 # dependências Python
+├── zensical.toml                    # configuração do site e navegação
+├── docs/                            # fontes Markdown
 │   ├── index.md
-│   ├── introducao.md
-│   └── ...
-└── site/                 # Saída gerada (HTML estático)
-    └── index.html
+│   ├── introducao-instalacao.md
+│   ├── sintaxe-basica.md
+│   ├── estruturas-controle.md
+│   ├── arrays-slices-maps.md
+│   ├── structs-metodos.md
+│   ├── tratamento-erros.md
+│   ├── concorrencia-i-goroutines.md
+│   ├── concorrencia-ii-channels.md
+│   ├── go-modules.md
+│   └── testes-automatizados.md
+├── site/                            # gerado automaticamente (não editar)
+└── .github/
+    └── workflows/
+        ├── ci.yml                   # validação em PRs (matrix + cache)
+        └── docs.yml                 # build + deploy (jobs separados)
 ```
-
-## Adicionando novos documentos
-
-Para adicionar uma nova página à documentação:
-
-1. Crie um arquivo `.md` na pasta `docs/`
-2. Escreva o conteúdo em Markdown
-3. Execute `zensical serve` para visualizar
-
-## Solução de Problemas
-
-### Erro: "zensical: comando não encontrado"
-
-Certifique-se de que:
-1. O ambiente virtual está ativado
-2. As dependências foram instaladas: `pip install -r requirements.txt`
-3. Você está no diretório do projeto
-
-### Erro: "não é possível carregar script"
-
-Se receber erro sobre política de execução no PowerShell, use:
-
-```powershell
-.\.venv\Scripts\python -m zensical serve
-```
-
-## Contribuindo
-
-Para contribuir com esta documentação:
-
-1. Crie um novo branch: `git checkout -b feature/nova-secao`
-2. Adicione seus documentos em Markdown na pasta `docs/`
-3. Teste localmente com `zensical serve`
-4. Faça commit e push das mudanças
-5. Abra um Pull Request
-
-## Licença
-
-Este projeto é fornecido como material educacional.
